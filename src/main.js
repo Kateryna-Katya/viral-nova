@@ -1,85 +1,130 @@
-// Добавляем функцию инициализации анимации текста
-function initHeroAnimation() {
-    const splitTarget = document.querySelector('.js-split');
-    if (!splitTarget) return;
-
-    const text = splitTarget.innerText;
-    splitTarget.innerHTML = '';
-
-    // Разбиваем текст на символы, сохраняя пробелы
-    text.split('').forEach((char) => {
-        const span = document.createElement('span');
-        span.classList.add('char');
-        span.innerText = char === ' ' ? '\u00A0' : char;
-        splitTarget.appendChild(span);
-    });
-
-    // Запускаем появление с задержкой для каждого символа
-    const chars = document.querySelectorAll('.char');
-    chars.forEach((char, index) => {
-        setTimeout(() => {
-            char.classList.add('active');
-        }, 50 * index);
-    });
-}
-
-// Вызываем в DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
-    initHeroAnimation();
     
-    // Эффект появления при скролле (простой Observer вместо AOS)
-    const observerOptions = {
-        threshold: 0.1
-    };
+    /* --- 1. Анимация Hero (Split Text) --- */
+    function initHeroAnimation() {
+        const splitTarget = document.querySelector('.js-split');
+        if (!splitTarget) return;
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+        const text = splitTarget.innerText;
+        splitTarget.innerHTML = '';
+
+        text.split(' ').forEach((word, wordIndex, wordsArray) => {
+            const wordSpan = document.createElement('span');
+            wordSpan.style.display = 'inline-block';
+            wordSpan.style.whiteSpace = 'nowrap';
+
+            word.split('').forEach(char => {
+                const charSpan = document.createElement('span');
+                charSpan.classList.add('char');
+                charSpan.innerText = char;
+                wordSpan.appendChild(charSpan);
+            });
+
+            splitTarget.appendChild(wordSpan);
+            if (wordIndex < wordsArray.length - 1) {
+                splitTarget.appendChild(document.createTextNode(' '));
             }
         });
-    }, observerOptions);
 
-    // Мобильное меню (базовый функционал)
+        const chars = document.querySelectorAll('.char');
+        chars.forEach((char, index) => {
+            setTimeout(() => char.classList.add('active'), 40 * index);
+        });
+    }
+
+    /* --- 2. Мобильное Меню --- */
     const menuToggle = document.getElementById('menuToggle');
-    const menu = document.getElementById('menu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuLinks = document.querySelectorAll('.mobile-menu__link');
 
-    menuToggle.addEventListener('click', () => {
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    function toggleMenu() {
+        menuToggle.classList.toggle('is-active');
+        mobileMenu.classList.toggle('is-active');
+        document.body.style.overflow = mobileMenu.classList.contains('is-active') ? 'hidden' : '';
+    }
+
+    menuToggle.addEventListener('click', toggleMenu);
+    menuLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+    /* --- 3. Intersection Observer (Reveal effects) --- */
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* --- 4. Интерактив карточек (Mouse Move) --- */
+    const cards = document.querySelectorAll('.tech-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            card.style.background = `radial-gradient(circle at ${e.clientX - rect.left}px ${e.clientY - rect.top}px, rgba(0, 255, 65, 0.07), transparent 80%)`;
+        });
+        card.addEventListener('mouseleave', () => card.style.background = `rgba(15, 15, 15, 0.8)`);
     });
 
-    // Плавный скролл для ссылок
+    /* --- 5. Форма и Капча --- */
+    let captchaResult = 0;
+    const generateCaptcha = () => {
+        const q = document.getElementById('captcha-question');
+        if (!q) return;
+        const a = Math.floor(Math.random() * 9) + 1;
+        const b = Math.floor(Math.random() * 9) + 1;
+        captchaResult = a + b;
+        q.innerText = `${a} + ${b}`;
+    };
+
+    const mainForm = document.getElementById('mainForm');
+    if (mainForm) {
+        mainForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const phone = document.getElementById('phone').value.replace(/\D/g, '');
+            const answer = parseInt(document.getElementById('captcha-answer').value);
+
+            if (phone.length < 5) return alert('Введите корректный номер');
+            if (answer !== captchaResult) {
+                alert('Ошибка капчи');
+                return generateCaptcha();
+            }
+
+            const btn = this.querySelector('button');
+            btn.innerText = 'Отправка...';
+            setTimeout(() => {
+                this.style.display = 'none';
+                document.getElementById('formSuccess').style.display = 'block';
+            }, 1500);
+        });
+    }
+
+    /* --- 6. Cookie Popup --- */
+    const cookiePopup = document.getElementById('cookiePopup');
+    const acceptBtn = document.getElementById('acceptCookies');
+
+    if (!localStorage.getItem('viralNova_cookies')) {
+        setTimeout(() => cookiePopup.classList.add('is-show'), 2000);
+    }
+
+    acceptBtn.addEventListener('click', () => {
+        localStorage.setItem('viralNova_cookies', 'true');
+        cookiePopup.classList.remove('is-show');
+    });
+
+    /* --- 7. Плавный скролл --- */
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+        anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                window.scrollTo({
-                    top: target.offsetTop - 80,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
             }
         });
     });
-    // Эффект подсвечивания карточек за мышью
-const cards = document.querySelectorAll('.tech-card');
 
-cards.forEach(card => {
-    card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
-        
-        // Создаем эффект радиального градиента через border
-        card.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(0, 255, 65, 0.07), transparent 80%)`;
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        card.style.background = `rgba(15, 15, 15, 0.8)`;
-    });
-});
+    // Инициализация
+    initHeroAnimation();
+    generateCaptcha();
 });
