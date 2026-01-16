@@ -14,7 +14,7 @@
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Inter:wght@400;600&display=swap"
     rel="stylesheet">
     <script type="module" crossorigin src="/viral-nova/index.js"></script>
-    <link rel="stylesheet" crossorigin href="/viral-nova/assets/styles-BqxkjKlt.css">
+    <link rel="stylesheet" crossorigin href="/viral-nova/assets/styles-DrqFVnH_.css">
   </head>
   <body class="page">
     <header class="header">
@@ -42,6 +42,18 @@
     </div>
   </div>
 </header>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu__inner">
+    <ul class="mobile-menu__list">
+      <li><a href="#" class="mobile-menu__link">Главная</a></li>
+      <li><a href="#about" class="mobile-menu__link">Платформа</a></li>
+      <li><a href="#benefits" class="mobile-menu__link">Преимущества</a></li>
+      <li><a href="#innovation" class="mobile-menu__link">Технологии</a></li>
+      <li><a href="#courses" class="mobile-menu__link">Обучение</a></li>
+    </ul>
+    <a href="#contact" class="btn btn--primary mobile-menu__btn">Запросить доступ</a>
+  </div>
+</div>
 
     <main class="main">
       <!-- Loads the specified .html file -->
@@ -286,6 +298,63 @@
         </div>
     </div>
 </section>
+<section class="contact" id="contact">
+    <div class="container">
+        <div class="contact__grid">
+            <div class="contact__info reveal">
+                <span class="section-tag">Связаться с нами</span>
+                <h2 class="section-title">Готовы к <span class="accent">инновациям?</span></h2>
+                <p class="contact__text">
+                    Бесплатная консультация по всем вопросам. Наши эксперты помогут оценить перспективы вашего проекта
+                    на рынке Европы.
+                </p>
+                <div class="contact__status-box">
+                    <span class="pulse-dot"></span>
+                    Предложение активно только в странах ЕС
+                </div>
+            </div>
+
+            <div class="contact__form-wrapper reveal">
+                <form class="contact-form" id="mainForm">
+                    <div class="form-group">
+                        <label for="name">Ваше имя</label>
+                        <input type="text" id="name" name="name" placeholder="Иван Иванов" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="support@viral-nova.blog" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Телефон (только цифры)</label>
+                        <input type="tel" id="phone" name="phone" placeholder="39021234567" required>
+                    </div>
+
+                    <div class="form-group captcha-group">
+                        <label>Решите пример: <span id="captcha-question">5 + 3</span></label>
+                        <input type="text" id="captcha-answer" placeholder="Ответ" required>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="consent" required>
+                        <label for="consent">Я согласен с <a href="./personal-data-policy.html">политикой
+                                конфиденциальности</a></label>
+                    </div>
+
+                    <button type="submit" class="btn btn--primary btn--full">Запросить доступ</button>
+                </form>
+
+                <div class="form-success" id="formSuccess">
+                    <div class="form-success__icon">✓</div>
+                    <h3>Запрос принят!</h3>
+                    <p>Экспертная поддержка свяжется с вами в течение 15 минут.</p>
+                    <button class="btn btn--secondary" onclick="resetForm()">Вернуться</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
     </main>
 
     <footer class="footer">
@@ -314,7 +383,9 @@
           <li><a href="privacy.html">Privacy Policy</a></li>
           <li><a href="cookies.html">Cookie Policy</a></li>
           <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="return.html">Return Policy</a></li>
           <li><a href="disclaimer.html">Disclaimer</a></li>
+          <li><a href="personal-data-policy.html">Personal Data</a></li>
         </ul>
       </div>
 
@@ -333,6 +404,12 @@
     </div>
   </div>
 </footer>
-
+<div class="cookie-popup" id="cookiePopup">
+  <div class="cookie-popup__content">
+    <p>Этот сайт использует cookies для улучшения работы. Подробнее — в нашей <a href="./cookies.html">Cookie
+        политике</a>.</p>
+    <button class="btn btn--primary btn--sm" id="acceptCookies">Принять</button>
+  </div>
+</div>
   </body>
 </html>
