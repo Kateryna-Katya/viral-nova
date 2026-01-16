@@ -1173,3 +1173,20 @@ body {
         font-size: 2rem;
     }
 }
+/* Дополнительный элемент для страниц документов */
+.pages-footer {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+}
+
+.pages strong {
+    color: var(--primary);
+    /* Выделяем важные заголовки акцентным цветом */
+    display: block;
+    margin-bottom: 8px;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
