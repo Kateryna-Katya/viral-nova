@@ -1089,3 +1089,87 @@ body {
         text-align: center;
     }
 }
+/* --- СТИЛИ ДЛЯ ЮРИДИЧЕСКИХ СТРАНИЦ --- */
+.pages {
+    padding: 160px 0 100px;
+    /* Отступ сверху с учетом фиксированного хедера */
+    min-height: 80vh;
+}
+
+.pages .container {
+    max-width: 800px;
+    /* Сужаем контейнер для удобства чтения текста */
+}
+
+.pages h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 40px;
+    border-left: 4px solid var(--primary);
+    padding-left: 20px;
+}
+
+.pages h2 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin: 50px 0 20px;
+    letter-spacing: -0.5px;
+}
+
+.pages p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+.pages strong {
+    color: var(--text);
+}
+
+.pages ul {
+    margin-bottom: 30px;
+    list-style: none;
+}
+
+.pages li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 15px;
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+.pages li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.pages a {
+    color: var(--primary);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: var(--transition);
+}
+
+.pages a:hover {
+    border-bottom: 1px solid var(--primary);
+}
+
+/* Адаптив для мобилок */
+@media (max-width: 768px) {
+    .pages {
+        padding-top: 120px;
+    }
+
+    .pages h1 {
+        font-size: 2rem;
+    }
+}
