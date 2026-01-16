@@ -62,19 +62,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-    const observerOptions = {
-    threshold: 0.15
-};
+    // Эффект подсвечивания карточек за мышью
+const cards = document.querySelectorAll('.tech-card');
 
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-        }
+cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+        
+        // Создаем эффект радиального градиента через border
+        card.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(0, 255, 65, 0.07), transparent 80%)`;
     });
-}, observerOptions);
-
-document.querySelectorAll('.reveal').forEach(el => {
-    revealObserver.observe(el);
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.background = `rgba(15, 15, 15, 0.8)`;
+    });
 });
 });
